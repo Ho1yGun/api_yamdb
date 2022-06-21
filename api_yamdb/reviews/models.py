@@ -9,8 +9,7 @@ class Reviews(models.Model):
     # titles = models.ForeignKey(
     #     Titles,
     #     on_delete=models.CASCADE,
-    #     verbose_name='отзыв',
-    # )
+    #     verbose_name='отзыв',)
     author = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
