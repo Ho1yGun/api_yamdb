@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 from django.shortcuts import get_object_or_404
 from rest_framework import viewsets
 
@@ -28,3 +29,25 @@ class ReviewsViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         return self.get_post().comments.all()
+=======
+from rest_framework import viewsets
+from rest_framework.permissions import IsAuthenticated
+
+from reviews.models import Categories, Genres, Titles
+from .serializers import CategoriesSerializer, GenresSerializer, TitlesSerializer
+
+
+class CategoriesViwSet(viewsets.ModelViewSet):
+    queryset = Categories.objects.all()
+    serializer_class = CategoriesSerializer
+
+
+class GenresViewSet(viewsets.ModelViewSet):
+    queryset = Genres.objects.all()
+    serializer_class = GenresSerializer
+
+class TitlesViewSet(viewsets.ModelViewSet):
+    queryset = Titles.objects.all()
+    serializer_class = TitlesSerializer
+
+>>>>>>> b0ed1dd (Versia_1)
