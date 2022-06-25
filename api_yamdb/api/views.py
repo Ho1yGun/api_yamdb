@@ -9,7 +9,7 @@ from .serializers import (
     ReviewsSerializer,
     CommentsSerializer
 )
-
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 
 class ReviewsViewSet(viewsets.ModelViewSet):
     serializer_class = ReviewsSerializer
@@ -42,13 +42,16 @@ class CommentsViewSet(viewsets.ModelViewSet):
 class CategoriesViwSet(viewsets.ModelViewSet):
     queryset = Categories.objects.all()
     serializer_class = CategoriesSerializer
+    permission_classes = (IsAuthorOrReadOnly,)
 
 
 class GenresViewSet(viewsets.ModelViewSet):
     queryset = Genres.objects.all()
     serializer_class = GenresSerializer
+    permission_classes = (IsAuthorOrReadOnly,)
 
 
 class TitlesViewSet(viewsets.ModelViewSet):
     queryset = Titles.objects.all()
     serializer_class = TitlesSerializer
+    permission_classes = (IsAuthorOrReadOnly,)
