@@ -29,9 +29,9 @@ class ReviewsViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         return self.get_post().comments.all()
-=======
+
 from rest_framework import viewsets
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 
 from reviews.models import Categories, Genres, Titles
 from .serializers import CategoriesSerializer, GenresSerializer, TitlesSerializer
@@ -40,14 +40,16 @@ from .serializers import CategoriesSerializer, GenresSerializer, TitlesSerialize
 class CategoriesViwSet(viewsets.ModelViewSet):
     queryset = Categories.objects.all()
     serializer_class = CategoriesSerializer
+    permission_classes = (IsAuthorOrReadOnly,)
 
 
 class GenresViewSet(viewsets.ModelViewSet):
     queryset = Genres.objects.all()
     serializer_class = GenresSerializer
+    permission_classes = (IsAuthorOrReadOnly,)
 
 class TitlesViewSet(viewsets.ModelViewSet):
     queryset = Titles.objects.all()
     serializer_class = TitlesSerializer
+    permission_classes = (IsAuthorOrReadOnly,)
 
->>>>>>> b0ed1dd (Versia_1)
