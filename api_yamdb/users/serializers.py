@@ -9,4 +9,4 @@ class UserSerializer(serializers.ModelSerializer):
 class ConfirmSerializer(serializers.ModelSerializer):
     class Meta:
         model = Confirm
-        fields = ("code")
+        fields = ("user", "code")
