@@ -12,6 +12,10 @@ AUTH_USER_MODEL = 'users.User'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+# указываем директорию, в которую будут складываться файлы писем
+EMAIL_FILE_PATH = os.path.join(BASE_DIR, 'sent_emails')
+
 AUTH_USER_MODEL = 'users.User'
 
 ALLOWED_HOSTS = ['*']
@@ -115,7 +119,7 @@ STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static/'),)
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated',
+        'rest_framework.permissions.AllowAny',
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication',

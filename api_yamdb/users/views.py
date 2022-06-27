@@ -19,9 +19,10 @@ class RegisterView(APIView):
             serializer.save()
             confirmation_code = generate_confirmation_code()
             send_mail(
-                'Введите этот код для завершения регистрации:',
-                f'{confirmation_code}',
-                [serializer.email],
+                'код',
+                f'Введите этот код для завершения регистрации: {confirmation_code}',
+                'noreply@gmail.com',
+                [serializer.validated_data['email']],
                 fail_silently=False,
             )
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -30,6 +31,13 @@ class RegisterView(APIView):
 
 def get_token(user, reqister):
     serializer = UserSerializer
+    User.objects.create(username = serializer.validated_data['email'],
+    password = serializer.validated_data['password'],
+    first_name = serializer.validated_data['first_name'],
+    last_name = serializer.validated_data['last_name'],
+    bio = serializer.validated_data['bio'],
+    code = serializer.validated_data['code'],
+    email = serializer.validated_data['email'])
     if serializer.code == RegisterView.code:
         refresh = RefreshToken.for_user(user)
         return {
