@@ -28,9 +28,9 @@ class User(AbstractUser):
     
 
 def generate_confirmation_code():
-    return random.randint(1000,9999)
+    return random.randint(1000, 9999)
 
 
-class SignUp(models.Model):
-    username = models.CharField(max_length=100)
-    email = models.EmailField(max_length=100, unique=True)
+class ConfirmationCode(models.Model):
+    code = models.IntegerField(),
+    username = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user')
