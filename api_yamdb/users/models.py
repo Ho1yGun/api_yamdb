@@ -19,6 +19,7 @@ class User(AbstractUser):
         blank=True,
     ),
     role = EnumChoiceField(RoleChoice, default=RoleChoice.USER),
+    email = models.EmailField(max_length=100)
 
 
     def __str__(self):
@@ -26,9 +27,9 @@ class User(AbstractUser):
     
 
 def generate_confirmation_code():
-    return ''.join(random.randit(10000,9999))
+    return random.randint(1000,9999)
 
 
-class Confirm(models.Model):
-    user = models.ForeignKey(User, on_delete=models.PROTECT)
-    confirmation_code = models.CharField(max_length = 4, default=generate_confirmation_code)
+class SignUp(models.Model):
+    username = models.CharField(max_length=100)
+    email = models.EmailField(max_length=100)

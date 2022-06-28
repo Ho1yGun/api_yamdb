@@ -6,22 +6,23 @@ from django.contrib.auth import get_user_model
 from django.core.mail import send_mail
 from rest_framework.views import APIView
 
-from .serializers import UserSerializer, ConfirmSerializer
-from .models import User, Confirm
+from .serializers import UserSerializer, SignUpSerializer
+from .models import User, SignUp, generate_confirmation_code
 
 User = get_user_model()
 
 
 class RegisterView(APIView):
     def post(self, request):
-        serializer = UserSerializer(data=request.data)
-        if request.user.is_authenticated == False & serializer.is_valid():
+        serializer = SignUpSerializer(data=request.data)
+        if serializer.is_valid():
             serializer.save()
-            confirmation_code = Confirm.objects.create(user=request.user)
+            confirmation_code = generate_confirmation_code()
             send_mail(
-                'Введите этот код для завершения регистрации:',
-                f'{confirmation_code}',
-                [request.user.email],
+                'код',
+                f'Введите этот код для завершения регистрации: {confirmation_code}',
+                'noreply@gmail.com',
+                [serializer.validated_data['email']],
                 fail_silently=False,
             )
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -29,7 +30,14 @@ class RegisterView(APIView):
 
 
 def get_token(user, reqister):
-    serializer = ConfirmSerializer
+    serializer = UserSerializer
+    User.objects.create(username = serializer.validated_data['email'],
+    password = serializer.validated_data['password'],
+    first_name = serializer.validated_data['first_name'],
+    last_name = serializer.validated_data['last_name'],
+    bio = serializer.validated_data['bio'],
+    code = serializer.validated_data['code'],
+    email = serializer.validated_data['email'])
     if serializer.code == RegisterView.code:
         refresh = RefreshToken.for_user(user)
         return {

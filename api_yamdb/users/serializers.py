@@ -1,7 +1,12 @@
 from rest_framework import serializers
-from rest_framework.validators import UniqueValidator
 
-from .models import User, Confirm
+from .models import User, SignUp
+
+
+class SignUpSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SignUp
+        fields = ("username", "email")
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -13,10 +18,7 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ("username", "email", "first_name", "last_name", "bio", "role")
 
 
-class ConfirmSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Confirm
-        fields = ("user", "confirmation_code")
+
 
 
 # class UserEditSerializer(serializers.ModelSerializer):
