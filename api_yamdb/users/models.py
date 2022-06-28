@@ -14,12 +14,13 @@ class RoleChoice(enum.Enum):
 
 class User(AbstractUser):
     is_active = False
+    username = models.CharField(max_length=100, unique=True)
     bio = models.TextField(
         'Биография',
         blank=True,
     ),
     role = EnumChoiceField(RoleChoice, default=RoleChoice.USER),
-    email = models.EmailField(max_length=100)
+    email = models.EmailField(max_length=100, unique=True)
 
 
     def __str__(self):
@@ -32,4 +33,4 @@ def generate_confirmation_code():
 
 class SignUp(models.Model):
     username = models.CharField(max_length=100)
-    email = models.EmailField(max_length=100)
+    email = models.EmailField(max_length=100, unique=True)

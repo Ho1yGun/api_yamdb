@@ -3,6 +3,7 @@ from rest_framework import routers
 
 
 from .views import ReviewsViewSet, CategoriesViwSet, GenresViewSet, TitlesViewSet, CommentsViewSet
+from users.views import UserViewSet
 
 router_v1 = routers.DefaultRouter()
 router_v1.register(
@@ -19,6 +20,12 @@ router_v1.register(
     'titles',
     TitlesViewSet,
     basename='titles'
+)
+
+router_v1.register(
+    'users/',
+    UserViewSet,
+    basename='users'
 )
 
 router_v1.register(
