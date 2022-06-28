@@ -43,7 +43,7 @@ class RegisterView(APIView):
 
 def get_token(user):
     serializer = UserSerializer
-    confirmation_code = ConfirmationCode.objects.filter(username=user)
+    confirmation_code = ConfirmationCode.objects.filter(user=user)
     code = confirmation_code.code
     if serializer.validated_data['code'] == code:
         refresh = RefreshToken.for_user(user)

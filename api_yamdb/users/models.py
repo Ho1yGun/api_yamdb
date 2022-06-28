@@ -1,12 +1,9 @@
-from email.policy import default
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-import enum
 import random
-from enumchoicefield import EnumChoiceField
 
 
-class RoleChoice(enum.Enum):
+class Roles:
     USER = 'user'
     MODERATOR = 'Moderator'
     ADMIN = 'admin'
@@ -14,13 +11,17 @@ class RoleChoice(enum.Enum):
 
 class User(AbstractUser):
     is_active = False
-    username = models.CharField(max_length=100, unique=True)
+    Role_choises = {
+        ('user', Roles.USER),
+        ('moderator', Roles.MODERATOR),
+        ('admin', Roles.ADMIN)
+    }
     bio = models.TextField(
         'Биография',
         blank=True,
     ),
-    role = EnumChoiceField(RoleChoice, default=RoleChoice.USER),
-    email = models.EmailField(max_length=100, unique=True)
+    role = models.CharField(max_length=100, default = 'user', choices=Roles),
+    code = models.CharField(max_length=10)
 
 
     def __str__(self):
@@ -33,4 +34,4 @@ def generate_confirmation_code():
 
 class ConfirmationCode(models.Model):
     code = models.IntegerField(),
-    username = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user')
