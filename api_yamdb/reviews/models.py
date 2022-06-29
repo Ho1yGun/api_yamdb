@@ -6,7 +6,7 @@ from .validators import validate_year
 User = get_user_model()
 
 
-class Categories(models.Model):
+class Category(models.Model):
     """Модель типов произведений."""
     name = models.CharField(
         max_length=256,
@@ -26,7 +26,7 @@ class Categories(models.Model):
         ordering = ['name']
 
 
-class Genres(models.Model):
+class Genre(models.Model):
     """Модель Жанров произведений."""
     name = models.CharField(
         verbose_name='Название',
@@ -46,7 +46,7 @@ class Genres(models.Model):
         ordering = ['name']
 
 
-class Titles(models.Model):
+class Title(models.Model):
     """Модель произведений."""
     name = models.CharField(
         verbose_name='Название',
@@ -67,11 +67,11 @@ class Titles(models.Model):
         default=None
     )
     genre = models.ManyToManyField(
-        Genres,
+        Genre,
         verbose_name='Жанр'
     )
     category = models.ForeignKey(
-        Categories,
+        Category,
         on_delete=models.SET_NULL,
         blank=True,
         null=True,
@@ -90,12 +90,12 @@ class Titles(models.Model):
 class GenreTitle(models.Model):
     """Модель жанров и произведений."""
     genre = models.ForeignKey(
-        Genres,
+        Genre,
         on_delete=models.CASCADE,
         verbose_name='Жанр'
     )
     title = models.ForeignKey(
-        Titles,
+        Title,
         on_delete=models.CASCADE,
         verbose_name='Произведение'
     )
@@ -111,7 +111,7 @@ class GenreTitle(models.Model):
 class Reviews(models.Model):
     """Модель отзывов"""
     titles = models.ForeignKey(
-        Titles,
+        Title,
         on_delete=models.CASCADE,
         verbose_name='отзыв',
         related_name='reviews')

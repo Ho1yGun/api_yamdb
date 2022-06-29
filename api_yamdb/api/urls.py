@@ -2,22 +2,22 @@ from django.urls import include, path
 from rest_framework import routers
 
 
-from .views import ReviewsViewSet, CategoriesViwSet, GenresViewSet, TitlesViewSet, CommentsViewSet
+from .views import ReviewsViewSet, CategoryViwSet, GenreViewSet, TitleViewSet, CommentsViewSet
 
 router_v1 = routers.DefaultRouter()
 router_v1.register(
     'categories',
-    CategoriesViwSet,
+    CategoryViwSet,
     basename='categories'
 )
 router_v1.register(
     'genres',
-    GenresViewSet,
+    GenreViewSet,
     basename='genres'
 )
 router_v1.register(
     'titles',
-    TitlesViewSet,
+    TitleViewSet,
     basename='titles'
 )
 
