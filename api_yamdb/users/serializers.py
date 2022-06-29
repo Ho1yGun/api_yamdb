@@ -3,7 +3,7 @@ from .models import User
 
 
 class SignUpSerializer(serializers.Serializer):
-    user = serializers.CharField(),
+    user = serializers.CharField()
     email = serializers.EmailField()
 
 
