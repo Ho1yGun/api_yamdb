@@ -47,5 +47,5 @@ def generate_confirmation_code():
 
 
 class ConfirmationCode(models.Model):
-    code = models.IntegerField(),
+    code = models.IntegerField(default=1111)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user')
