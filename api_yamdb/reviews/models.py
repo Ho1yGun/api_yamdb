@@ -87,6 +87,27 @@ class Titles(models.Model):
         ordering = ['name']
 
 
+class GenreTitle(models.Model):
+    """Модель жанров и произведений."""
+    genre = models.ForeignKey(
+        Genres,
+        on_delete=models.CASCADE,
+        verbose_name='Жанр'
+    )
+    title = models.ForeignKey(
+        Titles,
+        on_delete=models.CASCADE,
+        verbose_name='Произведение'
+    )
+
+    def __str__(self):
+        return f'{self.genre},{self.title}'
+
+    class Meta:
+        verbose_name = 'Произведение и жанр'
+        verbose_name_plural = 'Произведения и жанр'
+
+
 class Reviews(models.Model):
     """Модель отзывов"""
     titles = models.ForeignKey(
