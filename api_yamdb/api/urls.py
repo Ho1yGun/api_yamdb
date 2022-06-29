@@ -23,7 +23,7 @@ router_v1.register(
 )
 
 router_v1.register(
-    'users/',
+    'users',
     UserViewSet,
     basename='users'
 )
