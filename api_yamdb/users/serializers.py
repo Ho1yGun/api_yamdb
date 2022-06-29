@@ -1,12 +1,12 @@
+from unittest.util import _MAX_LENGTH
 from rest_framework import serializers
 
 from .models import User, SignUp
 
 
-class SignUpSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = SignUp
-        fields = ("username", "email")
+class SignUpSerializer(serializers.Serializer):
+    user = serializers.CharField(),
+    email = serializers.EmailField()
 
 
 class UserSerializer(serializers.ModelSerializer):

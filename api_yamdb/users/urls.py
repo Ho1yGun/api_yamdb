@@ -1,9 +1,10 @@
-from django.urls import path
-
-from . import views
+from django.urls import include, path
+from rest_framework import routers
+from .views import RegisterView, UserViewSet
 
 app_name = 'users'
 
+
 urlpatterns = [
-    path('signup/', views.RegisterView.as_view(), name='signup'),
+    path('signup/', RegisterView.as_view(), name='signup'),
 ]
