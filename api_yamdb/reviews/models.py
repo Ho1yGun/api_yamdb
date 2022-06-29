@@ -1,9 +1,10 @@
 from django.contrib.auth import get_user_model
 from django.db import models
 
+import users.models
 from .validators import validate_year
 
-User = get_user_model()
+User = users.models.User
 
 
 class Category(models.Model):
@@ -108,9 +109,9 @@ class GenreTitle(models.Model):
         verbose_name_plural = 'Произведения и жанр'
 
 
-class Reviews(models.Model):
+class Review(models.Model):
     """Модель отзывов"""
-    titles = models.ForeignKey(
+    title = models.ForeignKey(
         Title,
         on_delete=models.CASCADE,
         verbose_name='отзыв',
@@ -134,10 +135,10 @@ class Reviews(models.Model):
         return self.text[:15]
 
 
-class Comments(models.Model):
+class Comment(models.Model):
     """Модель комментариев к отзывам"""
-    reviews = models.ForeignKey(
-        Reviews,
+    review = models.ForeignKey(
+        Review,
         on_delete=models.CASCADE,
         related_name='comments',
         verbose_name='Комментарий'
