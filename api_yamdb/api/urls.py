@@ -8,17 +8,17 @@ from users.views import UserViewSet
 router_v1 = routers.DefaultRouter()
 router_v1.register(
     'categories',
-    CategoriesViwSet,
+    CategoryViwSet,
     basename='categories'
 )
 router_v1.register(
     'genres',
-    GenresViewSet,
+    GenreViewSet,
     basename='genres'
 )
 router_v1.register(
     'titles',
-    TitlesViewSet,
+    TitleViewSet,
     basename='titles'
 )
 
