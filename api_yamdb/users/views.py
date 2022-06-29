@@ -25,8 +25,7 @@ class RegisterView(APIView):
     def post(self, request):
         serializer = SignUpSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
-            User.objects.create_user(username=serializer.validated_data['username'],
+            User.objects.create_user(username=serializer.validated_data['user'],
             email=serializer.validated_data['email'])
             confirmation_code = generate_confirmation_code()
             ConfirmationCode.objects.create(code=confirmation_code, username = serializer.validated_data['username'])
