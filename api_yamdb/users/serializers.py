@@ -1,7 +1,6 @@
-from unittest.util import _MAX_LENGTH
 from rest_framework import serializers
 
-from .models import User, SignUp
+from .models import User
 
 
 class SignUpSerializer(serializers.Serializer):

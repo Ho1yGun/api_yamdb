@@ -4,7 +4,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
 from rest_framework import viewsets
 
-from reviews.models import Category, Genre, Title, Reviews
+from reviews.models import Category, Genre, Title, Review
 from .filters import TitleFilter
 from .permissions import IsAdminOrReadOnly, OnlyAdminDeleteReviewsAndComments
 from .serializers import (CategorySerializer,
@@ -19,28 +19,34 @@ class ReviewsViewSet(viewsets.ModelViewSet):
     serializer_class = ReviewsSerializer
     permission_classes = (OnlyAdminDeleteReviewsAndComments,)
 
-    def get_titles(self):
-        return get_object_or_404(Title, id=self.kwargs.get('titles_id'))
+    def get_title(self):
+        return get_object_or_404(Title, id=self.kwargs.get('title_id'))
 
     def perform_create(self, serializer):
-        serializer.save(author=self.request.user, post=self.get_titles())
+        serializer.save(author=self.request.user, title=self.get_title())
 
     def get_queryset(self):
-        return self.get_titles().comments.all()
+        return self.get_title().reviews.all()
 
 
 class CommentsViewSet(viewsets.ModelViewSet):
     serializer_class = CommentsSerializer
     permission_classes = (OnlyAdminDeleteReviewsAndComments,)
 
-    def get_reviews(self):
-        return get_object_or_404(Reviews, id=self.kwargs.get('title_id'))
+    def get_review(self):
+        return get_object_or_404(Review, id=self.kwargs.get('review_id'))
 
     def perform_create(self, serializer):
-        serializer.save(author=self.request.user, post=self.get_reviews())
+        serializer.save(author=self.request.user,
+                        review=get_object_or_404(
+                            Review,
+                            id=self.kwargs.get('review_id'),
+                            title=self.kwargs.get('title_id')
+                            )
+                        )
 
     def get_queryset(self):
-        return self.get_reviews().comments.all()
+        return self.get_review().comments.all()
 
 
 class CategoryViwSet(viewsets.ModelViewSet):
