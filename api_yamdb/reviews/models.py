@@ -1,12 +1,13 @@
 from django.contrib.auth import get_user_model
 from django.db import models
 
+import users.models
 from .validators import validate_year
 
-User = get_user_model()
+User = users.models.User
 
 
-class Categories(models.Model):
+class Category(models.Model):
     """Модель типов произведений."""
     name = models.CharField(
         max_length=256,
@@ -26,7 +27,7 @@ class Categories(models.Model):
         ordering = ['name']
 
 
-class Genres(models.Model):
+class Genre(models.Model):
     """Модель Жанров произведений."""
     name = models.CharField(
         verbose_name='Название',
@@ -46,7 +47,7 @@ class Genres(models.Model):
         ordering = ['name']
 
 
-class Titles(models.Model):
+class Title(models.Model):
     """Модель произведений."""
     name = models.CharField(
         verbose_name='Название',
@@ -67,11 +68,11 @@ class Titles(models.Model):
         default=None
     )
     genre = models.ManyToManyField(
-        Genres,
+        Genre,
         verbose_name='Жанр'
     )
     category = models.ForeignKey(
-        Categories,
+        Category,
         on_delete=models.SET_NULL,
         blank=True,
         null=True,
@@ -87,10 +88,31 @@ class Titles(models.Model):
         ordering = ['name']
 
 
-class Reviews(models.Model):
+class GenreTitle(models.Model):
+    """Модель жанров и произведений."""
+    genre = models.ForeignKey(
+        Genre,
+        on_delete=models.CASCADE,
+        verbose_name='Жанр'
+    )
+    title = models.ForeignKey(
+        Title,
+        on_delete=models.CASCADE,
+        verbose_name='Произведение'
+    )
+
+    def __str__(self):
+        return f'{self.genre},{self.title}'
+
+    class Meta:
+        verbose_name = 'Произведение и жанр'
+        verbose_name_plural = 'Произведения и жанр'
+
+
+class Review(models.Model):
     """Модель отзывов"""
-    titles = models.ForeignKey(
-        Titles,
+    title = models.ForeignKey(
+        Title,
         on_delete=models.CASCADE,
         verbose_name='отзыв',
         related_name='reviews')
@@ -113,10 +135,10 @@ class Reviews(models.Model):
         return self.text[:15]
 
 
-class Comments(models.Model):
+class Comment(models.Model):
     """Модель комментариев к отзывам"""
-    reviews = models.ForeignKey(
-        Reviews,
+    review = models.ForeignKey(
+        Review,
         on_delete=models.CASCADE,
         related_name='comments',
         verbose_name='Комментарий'
