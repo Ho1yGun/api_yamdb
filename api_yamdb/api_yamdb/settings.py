@@ -32,8 +32,6 @@ INSTALLED_APPS = [
     'users',
     'api',
     'reviews',
-    # Это не нужно. Только приложения.
-    # 'api_yamdb',
 ]
 
 

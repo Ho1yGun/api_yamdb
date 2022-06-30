@@ -16,21 +16,49 @@ class User(AbstractUser):
         (ADMIN, 'admin')
     }
 
-    roles = models.CharField(
-        verbose_name='Роль',
+    username = models.CharField(
+        'Имя пользователя',
+        max_length=150,
+        unique=True
+    )
+    first_name = models.CharField(
+        'Имя',
+        max_length=50,
+        blank=True
+    )
+    last_name = models.CharField(
+        'Фамилия',
+        max_length=50,
+        blank=True
+    )
+    email = models.EmailField(
+        'Электронная почта',
+        max_length=150,
+        unique=True
+    )
+    bio = models.TextField(
+        'Краткая информация',
+        blank=True,
+        null=True
+    )
+    role = models.CharField(
+        'Роль',
         max_length=50,
         choices=ROLE_CHOISES,
-        default=USER,
+        default=USER
     )
 
-    bio = models.TextField(
-        'Биография',
-        blank=True,
-    ),
+    @property
+    def is_user(self):
+        return self.role == self.USER
 
-    # Код хранишь либо в User. Либо в модели ConfirmationCode.
-    # Одно из двух выбери, второе выпили.
-    code = models.CharField(max_length=10)
+    @property
+    def is_moderator(self):
+        return self.role == self.MODERATOR
+
+    @property
+    def is_admin(self):
+        return self.role == self.ADMIN or self.is_staff
 
     def __str__(self):
         # Такого поля нет у User.
