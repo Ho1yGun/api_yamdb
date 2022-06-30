@@ -41,7 +41,9 @@ class UserViewSet(viewsets.ModelViewSet):
             serializer.save(role=user.role)
         return Response(serializer.data)
 
+
 token_generator = PasswordResetTokenGenerator()
+
 
 class RegisterView(APIView):
     permission_classes = (permissions.AllowAny,)
