@@ -29,8 +29,6 @@ class RegisterView(APIView):
             user = User.objects.create_user(username=serializer.validated_data.get('username'),
             email=serializer.validated_data['email'])
             confirmation_code = generate_token.make_token(user)
-            user.is_active = False
-            user.save()
             send_mail(
                 'код',
                 f'Введите этот код для завершения регистрации: {confirmation_code}',
