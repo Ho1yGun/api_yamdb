@@ -25,10 +25,10 @@ class RegisterView(APIView):
     def post(self, request):
         serializer = SignUpSerializer(data=request.data)
         if serializer.is_valid():
-            User.objects.create_user(username=serializer.validated_data['user'],
+            User.objects.create_user(username=serializer.validated_data.get('username'),
             email=serializer.validated_data['email'])
             confirmation_code = generate_confirmation_code()
-            ConfirmationCode.objects.create(code=confirmation_code, username = serializer.validated_data['username'])
+            ConfirmationCode.objects.create(code=confirmation_code, user = serializer.validated_data['username'])
             send_mail(
                 'код',
                 f'Введите этот код для завершения регистрации: {confirmation_code}',

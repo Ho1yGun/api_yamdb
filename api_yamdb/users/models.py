@@ -20,7 +20,7 @@ class User(AbstractUser):
         blank=True,
     )
     role = models.CharField(max_length=100, default = 'user', choices=Role_choises)
-    code = models.CharField(max_length=10,  null= True)
+    code = models.CharField(max_length=10,  blank=True, null= True)
 
 
     def __str__(self):
