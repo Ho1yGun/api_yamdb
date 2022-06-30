@@ -6,7 +6,9 @@ from .views import (ReviewsViewSet,
                     GenreViewSet,
                     TitleViewSet,
                     CommentsViewSet)
+
 from users.views import UserViewSet, RegisterView, GetTokenView
+
 
 router_v1 = routers.DefaultRouter()
 router_v1.register(
