@@ -2,14 +2,15 @@ from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework import status, filters
 from rest_framework import viewsets
-from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.tokens import RefreshToken, AccessToken
 from django.contrib.auth import get_user_model
 from django.core.mail import send_mail
+from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
 from rest_framework import permissions
 
-from .serializers import UserSerializer, SignUpSerializer
-from .models import User, ConfirmationCode, generate_confirmation_code
+from .serializers import UserSerializer, SignUpSerializer, TokenSerializer
+from .models import User, generate_token
 
 User = get_user_model()
 
@@ -25,10 +26,11 @@ class RegisterView(APIView):
     def post(self, request):
         serializer = SignUpSerializer(data=request.data)
         if serializer.is_valid():
-            User.objects.create_user(username=serializer.validated_data.get('username'),
+            user = User.objects.create_user(username=serializer.validated_data.get('username'),
             email=serializer.validated_data['email'])
-            confirmation_code = generate_confirmation_code()
-            ConfirmationCode.objects.create(code=confirmation_code, user = serializer.validated_data['username'])
+            confirmation_code = generate_token.make_token(user)
+            user.is_active = False
+            user.save()
             send_mail(
                 'код',
                 f'Введите этот код для завершения регистрации: {confirmation_code}',
@@ -40,12 +42,19 @@ class RegisterView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-def get_token(user):
-    serializer = UserSerializer
-    confirmation_code = ConfirmationCode.objects.filter(user=user)
-    code = confirmation_code.code
-    if serializer.validated_data['code'] == code:
-        refresh = RefreshToken.for_user(user)
-        return {
-            'access': str(refresh.access_token),
-        }
+class Token_View(APIView):
+    def post(self, request):
+        serializer = TokenSerializer(data=request.data)
+        if serializer.is_valid():
+            confirmation_code = serializer.validated_data.get('confirmation_code')
+            username = serializer.validated_data.get('username')
+            user = get_object_or_404(User, username=username)
+            if generate_token.check_token(user, confirmation_code):
+                user.is_active = True
+                user.save()
+                token = AccessToken.for_user(user)
+                return Response({'token': f'{token}'}, status=status.HTTP_200_OK)
+            return Response(
+                {'confirmation_code': 'Код не действителен.'},
+                status=status.HTTP_400_BAD_REQUEST
+            )

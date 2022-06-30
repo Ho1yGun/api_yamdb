@@ -22,7 +22,9 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ("username", "email", "first_name", "last_name", "bio", "role")
 
 
-
+class TokenSerializer(serializers.Serializer):
+    username = serializers.CharField()
+    confirmation_code = serializers.CharField()
 
 
 # class UserEditSerializer(serializers.ModelSerializer):

@@ -1,6 +1,7 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 import random
+from django.contrib.auth.tokens import PasswordResetTokenGenerator
 
 
 class Roles:
@@ -42,10 +43,4 @@ class User(AbstractUser):
         return f'{self.username}, статус: {self.role}'
     
 
-def generate_confirmation_code():
-    return random.randint(1000, 9999)
-
-
-class ConfirmationCode(models.Model):
-    code = models.IntegerField(default=1111)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user')
+generate_token = PasswordResetTokenGenerator()
