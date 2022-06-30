@@ -29,6 +29,7 @@ class RegisterView(APIView):
             user = User.objects.create_user(username=serializer.validated_data.get('username'),
             email=serializer.validated_data['email'])
             confirmation_code = generate_token.make_token(user)
+            user.is_active = False
             send_mail(
                 'код',
                 f'Введите этот код для завершения регистрации: {confirmation_code}',
@@ -40,7 +41,7 @@ class RegisterView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class Token_View(APIView):
+class TokenView(APIView):
     def post(self, request):
         serializer = TokenSerializer(data=request.data)
         if serializer.is_valid():

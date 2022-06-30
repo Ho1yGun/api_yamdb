@@ -7,7 +7,7 @@ from .views import (ReviewsViewSet,
                     GenreViewSet,
                     TitleViewSet,
                     CommentsViewSet)
-from users.views import UserViewSet
+from users.views import UserViewSet, TokenView
 
 router_v1 = routers.DefaultRouter()
 router_v1.register(
@@ -46,5 +46,6 @@ router_v1.register(
 urlpatterns = [
     path('v1/', include(router_v1.urls)),
     path('v1/auth/', include('users.urls', namespace='users')),
+    path('v1/auth/token/', TokenView.as_view(), name='token'),
     path('v1/auth/', include('django.contrib.auth.urls')),
 ]
