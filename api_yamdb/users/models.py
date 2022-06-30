@@ -52,7 +52,7 @@ class Roles:
         'Роль',
         max_length=50,
         choices=ROLE_CHOISES,
-        default=USER
+        default='user'
     )
 
     @property
