@@ -91,5 +91,3 @@ class GetTokenView(APIView):
             {'confirmation_code': 'Код не действителен.'},
             status=status.HTTP_400_BAD_REQUEST
         )
-
-
