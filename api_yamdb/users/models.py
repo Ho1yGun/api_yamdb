@@ -21,6 +21,7 @@ class User(AbstractUser):
     )
     role = models.CharField(max_length=100, default = 'user', choices=Role_choises)
     code = models.CharField(max_length=10)
+    REQUIRED_FIELDS = ['code']
 
 
     def __str__(self):
