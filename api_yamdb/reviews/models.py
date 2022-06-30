@@ -112,7 +112,8 @@ class Review(models.Model):
         Title,
         on_delete=models.CASCADE,
         verbose_name='отзыв',
-        related_name='reviews')
+        related_name='reviews'
+    )
     text = models.TextField(
         verbose_name='Текст отзыва',
         help_text='Введите текст отзыва'
