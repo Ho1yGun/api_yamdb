@@ -54,7 +54,7 @@ class ReviewsSerializer(serializers.ModelSerializer):
         read_only=True
     )
     title = serializers.SlugRelatedField(
-        slug_field='title',
+        slug_field='name',
         read_only=True,
     )
 

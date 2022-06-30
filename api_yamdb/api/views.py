@@ -73,7 +73,6 @@ class TitleViewSet(viewsets.ModelViewSet):
     filter_backends = (DjangoFilterBackend,)
     filterset_class = TitleFilter
 
-
     def get_serializer_class(self):
         if self.action in ("retrieve", "list"):
             return ReadOnlyTitleSerializer
