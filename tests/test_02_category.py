@@ -11,6 +11,7 @@ class Test02CategoryAPI:
         assert response.status_code != 404, (
             'Страница `/api/v1/categories/` не найдена, проверьте этот адрес в *urls.py*'
         )
+        print(response)
         assert response.status_code == 200, (
             'Проверьте, что при GET запросе `/api/v1/categories/` без токена авторизации возвращается статус 200'
         )
