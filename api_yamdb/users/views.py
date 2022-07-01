@@ -76,6 +76,7 @@ class RegisterView(APIView):
 class GetTokenView(APIView):
     permission_classes = (permissions.AllowAny,)
 
+
     def post(self, request):
         serializer = TokenSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
