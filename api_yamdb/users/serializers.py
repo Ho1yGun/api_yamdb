@@ -24,8 +24,6 @@ class SignUpSerializer(serializers.Serializer):
     class Meta:
         fields = ("username", "email")
         model = User
-    #user = serializers.CharField()
-    #email = serializers.EmailField()
 
 
 class UserSerializer(serializers.ModelSerializer):

@@ -3,10 +3,11 @@ from django.db import models
 import random
 
 
-class Roles:
+class User(AbstractUser):
     USER = 'user'
-    MODERATOR = 'Moderator'
+    MODERATOR = 'moderator'
     ADMIN = 'admin'
+
     # Константы заглавными буквами ROLE_CHOISES.
     # Название выбора в константы.
     ROLE_CHOISES = {
@@ -35,14 +36,6 @@ class Roles:
         max_length=150,
         unique=True
     )
-
-
-#class User(AbstractUser):
-#    Role_choises = [
-#        ('user', Roles.USER),
-#        ('moderator', Roles.MODERATOR),
-#        ('admin', Roles.ADMIN)
-#    ]
     bio = models.TextField(
         'Краткая информация',
         blank=True,
@@ -52,7 +45,7 @@ class Roles:
         'Роль',
         max_length=50,
         choices=ROLE_CHOISES,
-        default='user'
+        default=USER
     )
 
     @property
@@ -66,34 +59,17 @@ class Roles:
     @property
     def is_admin(self):
         return self.role == self.ADMIN or self.is_staff
-    #)
-    #role = models.CharField(max_length=100, default = 'user', choices=Role_choises)
-    #code = models.CharField(max_length=10)
-
 
     def __str__(self):
-        return self.name
-    
-    @property
-    def is_admin(self):
-        return self.role == "admin" or self.is_superuser
+        # Такого поля нет у User.
+        # return self.name
+        return self.username
 
-    @property
-    def is_moderator(self):
-        return self.role == "moderator"
-
-    @property
-    def is_user(self):
-        return self.role == "user"
-
-    def __str__(self):
-        return f'{self.username}, статус: {self.role}'
-    
 
 def generate_confirmation_code():
     return random.randint(1000, 9999)
 
 
 class ConfirmationCode(models.Model):
-    code = models.IntegerField(default=1111)
+    code = models.IntegerField(),
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user')
