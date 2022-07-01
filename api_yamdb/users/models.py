@@ -18,7 +18,7 @@ class User(AbstractUser):
     username = models.CharField(
         'Имя пользователя',
         max_length=150,
-        null= True,
+        null=True,
         unique=True
     )
     first_name = models.CharField(
@@ -70,4 +70,8 @@ def generate_confirmation_code():
 
 class ConfirmationCode(models.Model):
     code = models.IntegerField(),
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user')
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='user'
+    )
