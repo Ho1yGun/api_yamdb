@@ -27,8 +27,12 @@ class SignUpSerializer(serializers.Serializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
-    username = serializers.CharField()
-    email = serializers.EmailField()
+    username = serializers.CharField(validators=[
+            UniqueValidator(queryset=User.objects.all())
+        ])
+    email = serializers.EmailField(validators=[
+            UniqueValidator(queryset=User.objects.all())
+        ])
 
     class Meta:
         model = User
@@ -38,5 +42,5 @@ class UserSerializer(serializers.ModelSerializer):
 
 class TokenSerializer(serializers.Serializer):
     username = serializers.CharField()
-    confirmation_code = serializers.CharField()
+    code = serializers.CharField()
 

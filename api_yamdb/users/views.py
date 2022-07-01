@@ -1,5 +1,4 @@
-import code
-from random import random
+import random
 from rest_framework.decorators import action
 from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
@@ -15,8 +14,6 @@ import random
 from .permissions import IsAdmin
 from .serializers import UserSerializer, SignUpSerializer, TokenSerializer
 from .models import User
-
-User = get_user_model()
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -52,29 +49,27 @@ class RegisterView(APIView):
         if serializer.is_valid():
             username = serializer.validated_data.get('username')
             email = serializer.validated_data.get('email')
-            confirmation_code = random.randit(1000,9999)
+            confirmation_code = random.randint(1000,9999)
             user, created = User.objects.get_or_create(
                 username=username,
                 email=email,
-                code = confirmation_code
         
             )
             message = f'Код подтверждения: {confirmation_code}'
             if created:
-                user.is_active = False
                 user.save()
-            send_mail(
-                subject='Код',
-                message=message,
-                from_email=None,
-                recipient_list=(email,)
-            )
-            context = {
-                'username': username,
-                'email': email
-            }
-            return Response(context, status=status.HTTP_200_OK)
-        return Response(context, status=status.HTTP_400_BAD_REQUEST)
+                send_mail(
+                    subject='Код',
+                    message=message,
+                    from_email=None,
+                    recipient_list=(email,)
+                )
+                context = {
+                    'username': username,
+                    'email': email
+                }
+                return Response(context, status=status.HTTP_200_OK)
+            return Response({'confirmation_code': 'Код не действителен.'}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class GetTokenView(APIView):
@@ -87,11 +82,9 @@ class GetTokenView(APIView):
             username = serializer.validated_data.get('username')
             user = get_object_or_404(User, username=username)
             if confirmation_code == user.code:
-                user.is_active = True
                 user.save()
                 refresh = RefreshToken.for_user(user)
                 return Response(str(refresh.access_token), status=status.HTTP_200_OK)
         return Response(
-            {'confirmation_code': 'Код не действителен.'},
             status=status.HTTP_400_BAD_REQUEST
         )

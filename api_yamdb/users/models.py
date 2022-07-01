@@ -44,12 +44,3 @@ class User(AbstractUser):
         # Такого поля нет у User.
         # return self.name
         return self.username
-
-
-def generate_confirmation_code():
-    return random.randint(1000, 9999)
-
-
-class ConfirmationCode(models.Model):
-    code = models.IntegerField(),
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user')
