@@ -47,5 +47,4 @@ class UserSerializer(serializers.ModelSerializer):
 
 class TokenSerializer(serializers.Serializer):
     username = serializers.CharField()
-    code = serializers.CharField()
-
+    confirmation_code = serializers.CharField()
