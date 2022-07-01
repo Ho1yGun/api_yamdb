@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import RegisterView, UserViewSet
+from .views import RegisterView
 
 app_name = 'users'
 
