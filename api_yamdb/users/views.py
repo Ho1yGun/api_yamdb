@@ -78,7 +78,7 @@ class GetTokenView(APIView):
     def post(self, request):
         serializer = TokenSerializer(data=request.data)
         if serializer.is_valid():
-            confirmation_code = serializer.validated_data.get('confirmation_code')
+            confirmation_code = serializer.validated_data.get('code')
             username = serializer.validated_data.get('username')
             user = get_object_or_404(User, username=username)
             if confirmation_code == user.code:
