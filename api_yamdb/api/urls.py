@@ -1,14 +1,9 @@
 from django.urls import include, path
 from rest_framework import routers
+from users.views import GetTokenView, RegisterView, UserViewSet
 
-from .views import (ReviewsViewSet,
-                    CategoryViwSet,
-                    GenreViewSet,
-                    TitleViewSet,
-                    CommentsViewSet)
-
-from users.views import UserViewSet, RegisterView, GetTokenView
-
+from .views import (CategoryViwSet, CommentsViewSet, GenreViewSet,
+                    ReviewsViewSet, TitleViewSet)
 
 router_v1 = routers.DefaultRouter()
 router_v1.register(

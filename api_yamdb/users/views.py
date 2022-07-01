@@ -1,8 +1,6 @@
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.core.mail import send_mail
-from rest_framework import permissions
-from rest_framework import status, filters
-from rest_framework import viewsets
+from rest_framework import filters, permissions, status, viewsets
 from rest_framework.decorators import action
 from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
@@ -11,7 +9,7 @@ from rest_framework_simplejwt.tokens import AccessToken
 
 from .models import User
 from .permissions import IsAdmin
-from .serializers import UserSerializer, SignUpSerializer, TokenSerializer
+from .serializers import SignUpSerializer, TokenSerializer, UserSerializer
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -90,4 +88,3 @@ class GetTokenView(APIView):
             {'confirmation_code': 'Код не действителен.'},
             status=status.HTTP_400_BAD_REQUEST
         )
-    
