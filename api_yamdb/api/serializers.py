@@ -1,4 +1,6 @@
+from django.shortcuts import get_object_or_404
 from rest_framework import serializers
+from rest_framework.exceptions import ValidationError
 
 from reviews.models import Category, Genre, Title, Review, Comment
 
@@ -63,6 +65,17 @@ class ReviewsSerializer(serializers.ModelSerializer):
         slug_field='name',
         read_only=True,
     )
+
+    def validate(self, data):
+        request = self.context['request']
+        title = get_object_or_404(
+            Title, pk=self.context['view'].kwargs.get('title_id'))
+        if request.method == 'POST':
+            if Review.objects.filter(
+                    title=title,
+                    author=request.user):
+                raise ValidationError('Только один отзыв')
+        return data
 
     class Meta:
         model = Review
