@@ -15,27 +15,6 @@ class User(AbstractUser):
         (MODERATOR, 'moderator'),
         (ADMIN, 'admin')
     }
-
-    username = models.CharField(
-        'Имя пользователя',
-        max_length=150,
-        unique=True
-    )
-    first_name = models.CharField(
-        'Имя',
-        max_length=50,
-        blank=True
-    )
-    last_name = models.CharField(
-        'Фамилия',
-        max_length=50,
-        blank=True
-    )
-    email = models.EmailField(
-        'Электронная почта',
-        max_length=150,
-        unique=True
-    )
     bio = models.TextField(
         'Краткая информация',
         blank=True,
@@ -47,6 +26,7 @@ class User(AbstractUser):
         choices=ROLE_CHOISES,
         default=USER
     )
+    code = models.CharField(max_length=10,  blank=True, null= True)
 
     @property
     def is_user(self):
@@ -64,12 +44,3 @@ class User(AbstractUser):
         # Такого поля нет у User.
         # return self.name
         return self.username
-
-
-def generate_confirmation_code():
-    return random.randint(1000, 9999)
-
-
-class ConfirmationCode(models.Model):
-    code = models.IntegerField(),
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user')

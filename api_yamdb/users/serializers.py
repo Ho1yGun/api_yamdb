@@ -27,6 +27,7 @@ class SignUpSerializer(serializers.Serializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
+
     username = serializers.CharField(
         validators=[
             UniqueValidator(queryset=User.objects.all())
@@ -46,5 +47,5 @@ class UserSerializer(serializers.ModelSerializer):
 
 class TokenSerializer(serializers.Serializer):
     username = serializers.CharField()
-    confirmation_code = serializers.CharField()
+    code = serializers.CharField()
 

@@ -140,7 +140,7 @@ class Review(models.Model):
             ),
         ]
 
-    def str(self):
+    def __str__(self):
         return self.text[:15]
 
 
