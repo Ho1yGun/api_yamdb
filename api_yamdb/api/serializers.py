@@ -8,6 +8,9 @@ class CategorySerializer(serializers.ModelSerializer):
         model = Category
         exclude = ('id',)
         lookup_field = 'slug'
+        extra_kwargs = {
+            'url': {'lookup_field': 'slug'}
+        }
 
 
 class GenreSerializer(serializers.ModelSerializer):
@@ -15,6 +18,9 @@ class GenreSerializer(serializers.ModelSerializer):
         model = Genre
         exclude = ('id',)
         lookup_field = 'slug'
+        extra_kwargs = {
+            'url': {'lookup_field': 'slug'}
+        }
 
 
 class TitleSerializer(serializers.ModelSerializer):
@@ -54,7 +60,7 @@ class ReviewsSerializer(serializers.ModelSerializer):
         read_only=True
     )
     title = serializers.SlugRelatedField(
-        slug_field='title',
+        slug_field='name',
         read_only=True,
     )
 
