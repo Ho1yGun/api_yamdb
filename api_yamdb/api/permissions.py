@@ -3,10 +3,16 @@ from rest_framework import permissions
 
 class OnlyAdminDeleteReviewsAndComments(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
-        if request.method == "DELETE":
-            return bool(request.user and request.user.is_staff)
+        return (
+                request.method in permissions.SAFE_METHODS
+                or obj.author == request.user
+                or request.user.is_moderator
+                or request.user.is_staff
+        )
+
+    def has_permission(self, request, view):
         return (request.method in permissions.SAFE_METHODS
-                or request.user == obj.author)
+                or request.user.is_authenticated)
 
 
 class IsAdminOrReadOnly(permissions.BasePermission):
