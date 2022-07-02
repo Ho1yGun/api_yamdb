@@ -12,6 +12,9 @@ from .permissions import IsAdmin
 from .serializers import SignUpSerializer, TokenSerializer, UserSerializer
 
 
+token_generator = PasswordResetTokenGenerator()
+
+
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
@@ -35,9 +38,6 @@ class UserViewSet(viewsets.ModelViewSet):
             serializer.is_valid(raise_exception=True)
             serializer.save(role=user.role)
         return Response(serializer.data)
-
-
-token_generator = PasswordResetTokenGenerator()
 
 
 class RegisterView(APIView):

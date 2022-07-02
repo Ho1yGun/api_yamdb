@@ -65,6 +65,10 @@ class ReviewsSerializer(serializers.ModelSerializer):
         read_only=True,
     )
 
+    class Meta:
+        model = Review
+        fields = '__all__'
+
     def validate(self, data):
         request = self.context['request']
         title = get_object_or_404(
@@ -75,10 +79,6 @@ class ReviewsSerializer(serializers.ModelSerializer):
                     author=request.user):
                 raise ValidationError('Только один отзыв')
         return data
-
-    class Meta:
-        model = Review
-        fields = '__all__'
 
 
 class CommentsSerializer(serializers.ModelSerializer):
