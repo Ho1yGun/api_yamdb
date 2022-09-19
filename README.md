@@ -1,4 +1,5 @@
 # api_yamdb
+## база отзывов пользователей на книги, музыку и фильмы
 ## Как запустить проект <img src = "https://img.shields.io/badge/Python-FFD43B?style=for-the-badge&logo=python&logoColor=blue" /> 
 
 ```
