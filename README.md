@@ -2,24 +2,45 @@
 ## База отзывов пользователей на книги, музыку и фильмы
 ## Как запустить проект <img src = "https://img.shields.io/badge/Python-FFD43B?style=for-the-badge&logo=python&logoColor=blue" /> 
 
-```
-python -m venv env  
-```
-```
-source env/bin/activate  
-```
+### Как запустить проект:
 
-#### Установить зависимость от файла requirements.txt: 
+#### Клонировать репозиторий и перейти в него в командной строке:
 
 ```
-python -m pip install --upgrade pip 
-``` 
-```
-pip install -r requirements.txt  
+HTTPS: git clone https://github.com/Ho1yGun/api_yamdb.git
+SSH: git clone git@github.com:Ho1yGun/api_yamdb.git
 ```
 
-#### Выполнить выборку:
+```
+cd api_yamdb
+```
+
+#### Cоздать и активировать виртуальное окружение:
 
 ```
-python manage.py migrate  
+python3 -m venv env
+или 
+python -m venv env для windows, далее так же
+```
+
+```
+source env/bin/activate
+```
+
+#### Установить зависимости из файла requirements.txt:
+
+```
+pip install -r requirements.txt
+```
+
+#### Выполнить миграции:
+
+```
+python3 manage.py migrate
+```
+
+#### Запустить проект:
+
+```
+python3 manage.py runserver
 ```
